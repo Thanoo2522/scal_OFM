@@ -1,8 +1,8 @@
 import firebase_admin
-from flask import Flask
+from flask import Flask, request, jsonify
 import os, json, io, traceback
-from firebase_admin import credentials, firestore,request, jsonify
-from firebase_admin import credentials, storage, db as rtdb, firestore, messaging
+
+from firebase_admin import credentials, firestore, storage, db as rtdb, messaging
 
 app = Flask(__name__)
 
@@ -16,6 +16,7 @@ firebase_admin.initialize_app(cred)
 db = firestore.client()
 rtdb_ref = rtdb.reference("/")
 bucket = storage.bucket()
+
 
 
 @app.route("/get_api_config", methods=["GET"])
