@@ -5,13 +5,21 @@ import os, json, io, traceback
 from firebase_admin import credentials, firestore, storage, db as rtdb, messaging
 
 app = Flask(__name__)
+RTD_URL1 = "https://scales-ofm-default-rtdb.asia-southeast1.firebasedatabase.app/"
+BUCKET_NAME = "scales-ofm.firebasestorage.app"
 
 service_account_json = os.environ.get("FIREBASE_SERVICE_KEY")
 if not service_account_json:
     raise RuntimeError("Missing FIREBASE_SERVICE_KEY")
 
 cred = credentials.Certificate(json.loads(service_account_json))
-firebase_admin.initialize_app(cred)
+firebase_admin.initialize_app(
+    cred,
+    {
+        "storageBucket": BUCKET_NAME,
+        "databaseURL": RTD_URL1
+    }
+)
 
 db = firestore.client()
 rtdb_ref = rtdb.reference("/")
